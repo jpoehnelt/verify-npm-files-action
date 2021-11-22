@@ -25,7 +25,6 @@ jobs:
       with: 
         KEYS: |
           main
-          foobar       
     - name: Checkout
       uses: actions/checkout@v2
       with:

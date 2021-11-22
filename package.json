@@ -15,6 +15,7 @@
   "author": "Justin Poehnelt",
   "main": "dist/index.js",
   "foobar": "dist/foobar.js",
+  "baz": "baz.js",
   "files": ["dist/**"],
   "scripts": {
     "build": "ncc build src/index.ts",
