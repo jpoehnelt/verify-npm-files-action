@@ -2835,13 +2835,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.main = exports.inDistFiles = exports.exists = exports.getConfig = void 0;
+exports.main = exports.inFilesArray = exports.exists = exports.getConfig = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const minimatch_1 = __importDefault(__nccwpck_require__(973));
 function getConfig() {
     const config = {
-        files: core.getInput("FILES", { required: false }).split("\n")
+        keys: core.getInput("KEYS", { required: false }).split("\n"),
     };
     return config;
 }
@@ -2855,28 +2855,32 @@ const exists = (file) => {
     }
 };
 exports.exists = exists;
-const inDistFiles = (file, dist) => {
-    for (const entry of dist) {
+const inFilesArray = (file, files) => {
+    for (const entry of files) {
         if ((0, minimatch_1.default)(file, entry)) {
             return true;
         }
     }
     return false;
 };
-exports.inDistFiles = inDistFiles;
+exports.inFilesArray = inFilesArray;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { files } = getConfig();
+            const { keys } = getConfig();
             const pkg = JSON.parse(fs_1.default.readFileSync("package.json").toString());
-            for (const key of files) {
-                const path = pkg[key];
-                if (!path) {
+            for (const key of keys) {
+                const keyPath = pkg[key];
+                if (!keyPath) {
                     core.warning(`${key} not found in package.json`);
                     return;
                 }
-                if (!(0, exports.exists)(path)) {
-                    core.setFailed(`${key} does not exist`);
+                if (pkg.files && !(0, exports.inFilesArray)(keyPath, pkg.files)) {
+                    core.setFailed(`${key} referencing ${keyPath} is not matched in files: []`);
+                    return;
+                }
+                if (!(0, exports.exists)(keyPath)) {
+                    core.setFailed(`${key} referencing ${keyPath} does not exist`);
                     return;
                 }
             }

@@ -19,12 +19,12 @@ import fs from "fs";
 import minimatch from "minimatch";
 
 export interface Config {
-  files: string[];
+  keys: string[];
 }
 
 export function getConfig(): Config {
   const config = {
-    files: core.getInput("FILES", { required: false }).split("\n"),
+    keys: core.getInput("KEYS", { required: false }).split("\n"),
   };
 
   return config;
@@ -38,8 +38,8 @@ export const exists = (file: string): boolean => {
   }
 };
 
-export const inDistFiles = (file: string, dist: string[]): boolean => {
-  for (const entry of dist) {
+export const inFilesArray = (file: string, files: string[]): boolean => {
+  for (const entry of files) {
     if (minimatch(file, entry)) {
       return true;
     }
@@ -49,19 +49,26 @@ export const inDistFiles = (file: string, dist: string[]): boolean => {
 
 export async function main(): Promise<void> {
   try {
-    const { files } = getConfig();
+    const { keys } = getConfig();
     const pkg = JSON.parse(fs.readFileSync("package.json").toString());
 
-    for (const key of files) {
-      const path = pkg[key];
+    for (const key of keys) {
+      const keyPath = pkg[key];
 
-      if (!path) {
-        core.warning(`${key} not found in package.json`);
+      if (!keyPath) {
+        core.warning(`key: \`${key}\` not found in package.json`);
         return;
       }
 
-      if (!exists(path)) {
-        core.setFailed(`${key} does not exist`);
+      if (pkg.files && !inFilesArray(keyPath, pkg.files)) {
+        core.setFailed(
+          `key: \`${key}\` referencing ${keyPath} is not matched in ${pkg.files}`
+        );
+        return;
+      }
+
+      if (!exists(keyPath)) {
+        core.setFailed(`key: \`${key}\` referencing ${keyPath} does not exist`);
         return;
       }
     }

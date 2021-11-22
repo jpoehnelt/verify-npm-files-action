@@ -1,10 +1,10 @@
 # action.yml
 name: "Verify NPM files action"
-description: "Verifies files are present and matched in dist."
+description: "Verifies files are present and matched in files array if provided."
 inputs:
-  files:
+  keys:
     description: |
-      New line deliminated list of files to verify.
+      New line deliminated list of package.json keys to verify.
     required: false
     default: |
       main      

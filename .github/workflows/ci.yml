@@ -12,3 +12,27 @@ jobs:
           npm build
           npm test
       - uses: codecov/codecov-action@v1
+      - id: foobar
+        name: Test Action - foobar
+        uses: ./
+        with: 
+          KEYS: |
+            foobar
+        continue-on-error: true
+      - name: assert foobar failed
+        if: steps.foobar.outcome != 'failure'
+        run: |
+          echo "foobar unexpectedly succeeded"
+          exit 1
+      - id: baz
+        name: Test Action - baz
+        uses: ./
+        with: 
+          KEYS: |
+            baz
+        continue-on-error: true
+      - name: assert baz failed
+        if: steps.baz.outcome != 'failure'
+        run: |
+          echo "baz unexpectedly succeeded"
+          exit 1
