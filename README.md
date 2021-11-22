@@ -10,7 +10,7 @@ A Github Action that verifies all files referenced by the package.json file are 
 
 ## Inputs
 
-### `files`
+### `keys`
 
 New line deliminated list of files to check.
 

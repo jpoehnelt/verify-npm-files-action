@@ -15,7 +15,7 @@ jobs:
       - name: Test Action
         uses: ./
         with: 
-          FILES: |
+          KEYS: |
             main
             foobar
         continue-on-error: true
