@@ -56,19 +56,19 @@ export async function main(): Promise<void> {
       const keyPath = pkg[key];
 
       if (!keyPath) {
-        core.warning(`${key} not found in package.json`);
+        core.warning(`key: \`${key}\` not found in package.json`);
         return;
       }
 
       if (pkg.files && !inFilesArray(keyPath, pkg.files)) {
         core.setFailed(
-          `${key} referencing ${keyPath} is not matched in files: []`
+          `key: \`${key}\` referencing ${keyPath} is not matched in ${pkg.files}`
         );
         return;
       }
 
       if (!exists(keyPath)) {
-        core.setFailed(`${key} referencing ${keyPath} does not exist`);
+        core.setFailed(`key: \`${key}\` referencing ${keyPath} does not exist`);
         return;
       }
     }
