@@ -24,7 +24,7 @@ export interface Config {
 
 export function getConfig(): Config {
   const config = {
-    files: core.getInput("FILES", { required: false }).split("\n")
+    files: core.getInput("FILES", { required: false }).split("\n"),
   };
 
   return config;
