@@ -14,21 +14,13 @@ A Github Action that verifies all files referenced by the package.json file are 
 
 New line deliminated list of files to check.
 
-```yaml
-files: |
-  types
-  main
-  module
-  ...
-```
-
 ## Usage
 
 ```yaml
 run: npm run build
 uses: jpoehnelt/verify-npm-files-actions@v1.0.0
   with:
-    FILES: |
+    KEYS: |
       types
       main
       module    
