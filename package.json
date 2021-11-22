@@ -14,6 +14,7 @@
   "license": "Apache 2.0",
   "author": "Justin Poehnelt",
   "main": "dist/index.js",
+  "foobar": "dist/foobar.js",
   "scripts": {
     "build": "ncc build src/index.ts",
     "lint": "eslint src/**/*.ts",
