@@ -19,12 +19,12 @@ import fs from "fs";
 import minimatch from "minimatch";
 
 export interface Config {
-  files: string[];
+  keys: string[];
 }
 
 export function getConfig(): Config {
   const config = {
-    files: core.getInput("FILES", { required: false }).split("\n"),
+    keys: core.getInput("KEYS", { required: false }).split("\n"),
   };
 
   return config;
@@ -49,10 +49,10 @@ export const inFilesArray = (file: string, files: string[]): boolean => {
 
 export async function main(): Promise<void> {
   try {
-    const { files } = getConfig();
+    const { keys } = getConfig();
     const pkg = JSON.parse(fs.readFileSync("package.json").toString());
 
-    for (const key of files) {
+    for (const key of keys) {
       const keyPath = pkg[key];
 
       if (!keyPath) {
