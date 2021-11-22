@@ -19,7 +19,8 @@ jobs:
           KEYS: |
             foobar
         continue-on-error: true
-      - if: steps.foobar.outcome != 'failure'
+      - name: assert foobar failed
+        if: steps.foobar.outcome != 'failure'
         run: |
           echo "foobar unexpectedly succeeded"
           exit 1
@@ -30,7 +31,8 @@ jobs:
           KEYS: |
             baz
         continue-on-error: true
-      - if: steps.baz.outcome != 'failure'
+      - name: assert baz failed
+        if: steps.baz.outcome != 'failure'
         run: |
           echo "baz unexpectedly succeeded"
           exit 1
