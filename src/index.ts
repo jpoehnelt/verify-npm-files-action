@@ -19,6 +19,8 @@ import fs from "fs";
 import minimatch from "minimatch";
 import { exec } from "child-process-promise";
 import tar from "tar";
+import path from "path";
+
 export interface Config {
   keys: string[];
 }
@@ -63,7 +65,7 @@ export async function main(): Promise<void> {
       },
     });
 
-    core.debug(`tarFiles: ${tarFiles}`);
+    core.info(`tarFiles: ${tarFiles}`);
 
     for (const key of keys) {
       const keyPath = pkg[key];
@@ -89,7 +91,7 @@ export async function main(): Promise<void> {
         return;
       }
 
-      if (!tarFiles.includes(keyPath)) {
+      if (!tarFiles.includes(path.join("package", keyPath))) {
         core.setFailed(
           `key: \`${key}\` referencing ${keyPath} is not in the tarball`
         );

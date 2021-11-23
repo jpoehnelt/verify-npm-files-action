@@ -12,6 +12,12 @@ jobs:
           npm build
           npm test
       - uses: codecov/codecov-action@v1
+      - id: main
+        name: Test Action - main
+        uses: ./
+        with: 
+          keys: |
+            main
       - id: foobar
         name: Test Action - foobar
         uses: ./
