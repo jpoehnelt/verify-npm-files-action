@@ -18,7 +18,7 @@ New line deliminated list of files to check.
 
 ```yaml
 run: npm run build
-uses: jpoehnelt/verify-npm-files-actions@v1.0.0
+uses: jpoehnelt/verify-npm-files-actions@main
   with:
     KEYS: |
       types
