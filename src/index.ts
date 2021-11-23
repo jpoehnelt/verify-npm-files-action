@@ -17,7 +17,8 @@
 import * as core from "@actions/core";
 import fs from "fs";
 import minimatch from "minimatch";
-
+import { exec } from "child-process-promise";
+import tar from "tar";
 export interface Config {
   keys: string[];
 }
@@ -51,9 +52,23 @@ export async function main(): Promise<void> {
   try {
     const { keys } = getConfig();
     const pkg = JSON.parse(fs.readFileSync("package.json").toString());
+    await exec(`npm pack`);
+    const tarFiles: string[] = [];
+
+    tar.t({
+      file: `${pkg.name}-${pkg.version}.tgz`,
+      sync: true,
+      onentry: (entry) => {
+        tarFiles.push(String(entry.path));
+      },
+    });
 
     for (const key of keys) {
       const keyPath = pkg[key];
+
+      if (!["main"].includes(key) && !pkg.files) {
+        core.setFailed(`Must use files with the key: \`${key}\``);
+      }
 
       if (!keyPath) {
         core.warning(`key: \`${key}\` not found in package.json`);
@@ -69,6 +84,13 @@ export async function main(): Promise<void> {
 
       if (!exists(keyPath)) {
         core.setFailed(`key: \`${key}\` referencing ${keyPath} does not exist`);
+        return;
+      }
+
+      if (!tarFiles.includes(keyPath)) {
+        core.setFailed(
+          `key: \`${key}\` referencing ${keyPath} is not in the tarball`
+        );
         return;
       }
     }

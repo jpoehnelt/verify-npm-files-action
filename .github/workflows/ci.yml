@@ -16,7 +16,7 @@ jobs:
         name: Test Action - foobar
         uses: ./
         with: 
-          KEYS: |
+          keys: |
             foobar
         continue-on-error: true
       - name: assert foobar failed
@@ -24,11 +24,24 @@ jobs:
         run: |
           echo "foobar unexpectedly succeeded"
           exit 1
+      - run: touch bar.js      
+      - id: bar
+        name: Test Action - bar
+        uses: ./
+        with: 
+          keys: |
+            bar
+        continue-on-error: true
+      - name: assert bar failed
+        if: steps.bar.outcome != 'failure'
+        run: |
+          echo "bar unexpectedly succeeded"
+          exit 1
       - id: baz
         name: Test Action - baz
         uses: ./
         with: 
-          KEYS: |
+          keys: |
             baz
         continue-on-error: true
       - name: assert baz failed

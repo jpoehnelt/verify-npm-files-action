@@ -16,7 +16,11 @@
   "main": "dist/index.js",
   "foobar": "dist/foobar.js",
   "baz": "baz.js",
-  "files": ["dist/**"],
+  "bar": "bar.js",
+  "files": [
+    "dist/**",
+    "bar.js"
+  ],
   "scripts": {
     "build": "ncc build src/index.ts",
     "lint": "eslint src/**/*.ts",
@@ -24,11 +28,15 @@
     "test": "echo 'no tests'"
   },
   "dependencies": {
-    "@actions/core": "^1.2.6"
+    "@actions/core": "^1.2.6",
+    "child-process-promise": "^2.2.1",
+    "tar": "^6.1.11"
   },
   "devDependencies": {
+    "@types/child-process-promise": "^2.2.2",
     "@types/minimatch": "^3.0.5",
     "@types/node": "^12.12.30",
+    "@types/tar": "^6.1.1",
     "@typescript-eslint/parser": "^2.24.0",
     "@vercel/ncc": "^0.32.0",
     "eslint": "^5.16.0",

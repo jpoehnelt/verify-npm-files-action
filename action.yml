@@ -1,6 +1,6 @@
 # action.yml
 name: "Verify NPM files action"
-description: "Verifies files are present and matched in files array if provided."
+description: "A Github Action that verifies all files referenced by the package.json file are present in the package tarball."
 inputs:
   keys:
     description: |
