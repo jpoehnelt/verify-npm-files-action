@@ -12058,7 +12058,6 @@ function main() {
                     tarFiles.push(String(entry.path));
                 },
             });
-            core.info(`tarFiles: ${tarFiles}`);
             for (const key of keys) {
                 const keyPath = pkg[key];
                 if (!["main"].includes(key) && !pkg.files) {
