@@ -93,7 +93,7 @@ export async function main(): Promise<void> {
 
       if (!tarFiles.includes(path.join("package", keyPath))) {
         core.setFailed(
-          `key: \`${key}\` referencing ${keyPath} is not in the tarball`
+          `key: \`${key}\` referencing ${keyPath} is not in the tarball files: ${tarFiles}`
         );
         return;
       }
