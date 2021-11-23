@@ -63,6 +63,8 @@ export async function main(): Promise<void> {
       },
     });
 
+    core.debug(`tarFiles: ${tarFiles}`);
+
     for (const key of keys) {
       const keyPath = pkg[key];
 
