@@ -18,7 +18,8 @@
   "baz": "baz.js",
   "bar": "bar.js",
   "files": [
-    "dist/**"
+    "dist/**",
+    "bar.js"
   ],
   "scripts": {
     "build": "ncc build src/index.ts",
