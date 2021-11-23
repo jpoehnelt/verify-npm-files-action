@@ -12018,6 +12018,7 @@ const fs_1 = __importDefault(__nccwpck_require__(7147));
 const minimatch_1 = __importDefault(__nccwpck_require__(3973));
 const child_process_promise_1 = __nccwpck_require__(4858);
 const tar_1 = __importDefault(__nccwpck_require__(4674));
+const path_1 = __importDefault(__nccwpck_require__(1017));
 function getConfig() {
     const config = {
         keys: core.getInput("KEYS", { required: false }).split("\n"),
@@ -12074,8 +12075,8 @@ function main() {
                     core.setFailed(`key: \`${key}\` referencing ${keyPath} does not exist`);
                     return;
                 }
-                if (!tarFiles.includes(keyPath)) {
-                    core.setFailed(`key: \`${key}\` referencing ${keyPath} is not in the tarball`);
+                if (!tarFiles.includes(path_1.default.join("package", keyPath))) {
+                    core.setFailed(`key: \`${key}\` referencing ${keyPath} is not in the tarball files: ${tarFiles}`);
                     return;
                 }
             }

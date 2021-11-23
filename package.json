@@ -16,10 +16,8 @@
   "main": "dist/index.js",
   "foobar": "dist/foobar.js",
   "baz": "baz.js",
-  "bar": "bar.js",
   "files": [
-    "dist/**",
-    "bar.js"
+    "dist/**"
   ],
   "scripts": {
     "build": "ncc build src/index.ts",

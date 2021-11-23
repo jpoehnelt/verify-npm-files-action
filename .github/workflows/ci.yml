@@ -12,6 +12,12 @@ jobs:
           npm build
           npm test
       - uses: codecov/codecov-action@v1
+      - id: main
+        name: Test Action - main
+        uses: ./
+        with: 
+          keys: |
+            main
       - id: foobar
         name: Test Action - foobar
         uses: ./
@@ -23,19 +29,6 @@ jobs:
         if: steps.foobar.outcome != 'failure'
         run: |
           echo "foobar unexpectedly succeeded"
-          exit 1
-      - run: touch bar.js      
-      - id: bar
-        name: Test Action - bar
-        uses: ./
-        with: 
-          keys: |
-            bar
-        continue-on-error: true
-      - name: assert bar failed
-        if: steps.bar.outcome != 'failure'
-        run: |
-          echo "bar unexpectedly succeeded"
           exit 1
       - id: baz
         name: Test Action - baz
